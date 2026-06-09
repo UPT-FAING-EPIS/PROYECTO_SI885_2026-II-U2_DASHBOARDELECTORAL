@@ -55,4 +55,17 @@ SQL_ADMIN_PASSWORD
 az ad sp create-for-rbac --name "sp-candidatos2026-github" --role contributor --scopes /subscriptions/aafcef11-213e-4c3a-bb8f-ee0bc32e435d --sdk-auth
 ```
 
+En este equipo ya se genero un archivo local ignorado por Git:
+
+```text
+.azure-github-credentials.json
+```
+
+Para configurar los secretos automaticamente:
+
+```powershell
+gh auth login --web --scopes repo,workflow
+.\scripts\configure_github_secrets.ps1
+```
+
 No publiques `infra/dev.tfvars`, `.env` ni `terraform.tfstate`.

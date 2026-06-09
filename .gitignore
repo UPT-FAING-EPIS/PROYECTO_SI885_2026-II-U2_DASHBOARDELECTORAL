@@ -1,4 +1,5 @@
 .env
+.azure-github-credentials.json
 .venv/
 __pycache__/
 *.pyc
