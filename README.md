@@ -53,6 +53,67 @@ Esta sección ofrece una panorámica del escenario electoral, segmentando a los 
 
 ---
 
+## Descripción del Sistema
+
+El sistema de análisis electoral presidencial 2026 es una plataforma de inteligencia de datos orientada a integrar, depurar, almacenar y visualizar información pública sobre candidatos, partidos políticos, trayectoria académica, antecedentes legales, ingresos declarados, visitas de campaña y presencia digital.
+
+La solución funciona como un flujo de datos completo: los archivos CSV almacenados en `/data` se cargan mediante procesos ETL hacia una base de datos analítica en Azure SQL; sobre esa base se construyen vistas especializadas para Power BI; finalmente, el dashboard permite consultar indicadores de riesgo, perfiles individuales de candidatos, comportamiento territorial y métricas comparativas para apoyar la fiscalización ciudadana y el análisis estratégico.
+
+### Objetivo General
+Desarrollar un sistema de Business Intelligence que permita monitorear y analizar candidatos electorales mediante datos estructurados, criterios de riesgo legal y visualizaciones interactivas.
+
+### Objetivos Específicos
+* Centralizar la información electoral en un modelo de datos normalizado.
+* Automatizar la carga de datasets hacia Azure SQL.
+* Construir vistas analíticas optimizadas para Power BI.
+* Visualizar indicadores clave de riesgo legal, educación, ingresos, partidos y actividad de campaña.
+* Documentar el proceso técnico para facilitar mantenimiento, despliegue y futuras mejoras.
+
+---
+
+## Workflows del Proyecto
+
+El repositorio incluye workflows de GitHub Actions para automatizar despliegue de infraestructura, validación técnica y actualización de datos.
+
+| Workflow | Archivo | Ejecución | Propósito |
+| --- | --- | --- | --- |
+| ETL Schedule | `.github/workflows/etl-schedule.yml` | Manual (`workflow_dispatch`) y diaria mediante cron | Sube los CSV de `/data` a Azure Blob Storage y ejecuta el ETL para cargar la información en Azure SQL. |
+| Terraform Plan | `.github/workflows/terraform-plan.yml` | Pull requests con cambios en `infra/` | Inicializa Terraform, valida formato, ejecuta validación y genera el plan de infraestructura antes de aplicar cambios. |
+| Terraform Apply | `.github/workflows/terraform-apply.yml` | Push a `main` con cambios en `infra/` o ejecución manual | Aplica automáticamente la infraestructura definida en Terraform usando credenciales de Azure. |
+
+### Flujo Operativo Principal
+1. Actualizar o incorporar archivos CSV en la carpeta `/data`.
+2. Ejecutar el workflow **ETL Schedule** o esperar su ejecución programada.
+3. Cargar los datos hacia Azure SQL mediante `etl/load_csv_to_azure_sql.py`.
+4. Consultar las vistas SQL preparadas para Power BI.
+5. Actualizar el dashboard `.pbix` desde Power BI Desktop.
+6. Publicar o compartir los reportes para análisis electoral.
+
+### Flujo de Infraestructura
+1. Modificar archivos dentro de `/infra`.
+2. Crear un pull request para ejecutar **Terraform Plan**.
+3. Revisar el plan generado y validar que los recursos sean correctos.
+4. Fusionar cambios a `main`.
+5. Ejecutar **Terraform Apply** para aprovisionar o actualizar recursos en Azure.
+
+---
+
+## EDT - Estructura de Desglose del Trabajo
+
+| Código | Entregable / Actividad | Descripción | Resultado |
+| --- | --- | --- | --- |
+| 1.0 | Gestión del proyecto | Definición del alcance, objetivos, documentación y control de avances. | Informes FD01-FD06 y README actualizado. |
+| 2.0 | Recolección de datos | Identificación, recopilación y organización de fuentes electorales, legales, académicas y digitales. | Archivos CSV en `/data`. |
+| 3.0 | Modelado de datos | Diseño de tablas, relaciones, normalización y estructura analítica. | Scripts SQL en `/sql` y `/database`. |
+| 4.0 | Procesos ETL | Automatización de carga de datos desde CSV hacia Azure SQL. | Script `etl/load_csv_to_azure_sql.py` y dependencias. |
+| 5.0 | Infraestructura Cloud | Definición y despliegue de recursos en Azure mediante Terraform. | Carpeta `/infra` y workflows de Terraform. |
+| 6.0 | Business Intelligence | Construcción del dashboard, métricas, vistas y medidas para análisis electoral. | Archivos Power BI en `/dashboard` y medidas documentadas. |
+| 7.0 | Automatización CI/CD | Configuración de GitHub Actions para ETL, validación y despliegue. | Workflows en `.github/workflows`. |
+| 8.0 | Validación y documentación | Pruebas, verificación de vistas, guías de conexión y pasos de uso. | Documentos en `/docs` y scripts de verificación. |
+| 9.0 | Presentación final | Consolidación de evidencias, informes y repositorio listo para evaluación. | Repositorio publicado en GitHub. |
+
+---
+
 ## Componentes del Sistema
 
 ### 1. Arquitectura de Datos (SQL)
