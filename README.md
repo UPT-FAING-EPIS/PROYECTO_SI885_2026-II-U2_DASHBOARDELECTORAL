@@ -140,6 +140,15 @@ Visualización de KPIs críticos como el nivel de preparación vs. ingresos, map
 * `/dashboard`: Archivos de reporte de inteligencia de negocios.
 * `/img`: Capturas del dashboard.
 * `/sql`: Script de la creacion de la base de datos.
+
+---
+
+## Entregables de la Unidad 2
+
+La matriz completa de cumplimiento se encuentra en [`docs/ENTREGABLES_UNIDAD_2.md`](./docs/ENTREGABLES_UNIDAD_2.md). Incluye el almacen de datos, automatizacion ETL, reporte Power BI conectado a Azure SQL, workflows, infraestructura Terraform, informes FD01-FD05, diccionario de datos y enlace de aplicacion.
+
+El diccionario de datos esta disponible en [`DICCIONARIO_DATOS.md`](./DICCIONARIO_DATOS.md).
+
 ---
 ## Retos Técnicos y Gestión de Datos
 
